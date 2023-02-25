@@ -1,5 +1,5 @@
 import pandas as pd
-from trading_calendars import get_calendar
+from exchange_calendars import get_calendar
 
 BAR = 0
 SESSION_START = 1

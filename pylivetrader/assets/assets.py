@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from trading_calendars import get_calendar
+from exchange_calendars import get_calendar
 from functools import total_ordering
 
 

@@ -20,11 +20,11 @@ from alpaca_trade_api.entity import Order
 from requests.exceptions import HTTPError
 import numpy as np
 import pandas as pd
-from trading_calendars import (
+from exchange_calendars import (
     get_calendar,
     register_calendar_alias,
 )
-from trading_calendars.calendar_utils import (
+from exchange_calendars.calendar_utils import (
     global_calendar_dispatcher as default_calendar,
 )
 from datetime import timedelta

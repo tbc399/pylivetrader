@@ -6,7 +6,7 @@ from pylivetrader.assets import AssetFinder
 from pylivetrader.assets import Equity
 from pylivetrader.misc.pd_utils import normalize_date
 from pylivetrader.finance.order import Order as ZPOrder
-from trading_calendars import get_calendar
+from exchange_calendars import get_calendar
 
 
 def get_fixture_data_portal(**kwargs):

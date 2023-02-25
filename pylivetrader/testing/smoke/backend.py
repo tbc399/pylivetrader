@@ -11,7 +11,7 @@ from pylivetrader.backend.base import BaseBackend
 import pandas as pd
 import numpy as np
 import string
-from trading_calendars import get_calendar
+from exchange_calendars import get_calendar
 
 from logbook import Logger
 

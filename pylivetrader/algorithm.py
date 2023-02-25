@@ -23,7 +23,7 @@ from itertools import chain
 from contextlib import ExitStack
 from copy import copy
 import importlib
-from trading_calendars import get_calendar
+from exchange_calendars import get_calendar
 
 import pylivetrader.protocol as proto
 from pylivetrader.assets import AssetFinder, Asset

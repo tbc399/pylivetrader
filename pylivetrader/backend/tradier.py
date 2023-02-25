@@ -17,10 +17,10 @@ from pylivetrader.misc.pd_utils import normalize_date
 from pylivetrader.assets import Equity
 from pylivetrader.finance.order import ORDER_STATUS
 from pylivetrader.finance.order import Order
-from trading_calendars.calendar_utils import (
+from exchange_calendars.calendar_utils import (
     global_calendar_dispatcher as default_calendar,
 )
-from trading_calendars import (
+from exchange_calendars import (
     get_calendar,
     register_calendar_alias,
 )
