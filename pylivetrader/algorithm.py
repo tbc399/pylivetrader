@@ -72,7 +72,6 @@ from pylivetrader.misc.api_context import (
     require_initialized,
     disallowed_in_before_trading_start,
 )
-from pylivetrader.misc.pd_utils import normalize_date
 from pylivetrader.misc.preprocess import preprocess
 from pylivetrader.misc.input_validation import (
     coerce_string,
@@ -427,7 +426,7 @@ class Algorithm(object):
         pass
 
     @api_method
-    @preprocess(symbol=ensure_upper_case)
+    #@preprocess(symbol=ensure_upper_case)
     def symbol(self, symbol):
         '''Lookup equity by symbol.
 
@@ -526,8 +525,8 @@ class Algorithm(object):
         self.datetime = dt
 
     @api_method
-    @preprocess(tz=coerce_string(pytz.timezone))
-    @expect_types(tz=optional(tzinfo))
+    #@preprocess(tz=coerce_string(pytz.timezone))
+    #@expect_types(tz=optional(tzinfo))
     def get_datetime(self, tz=None):
         dt = self.datetime
         assert dt.tzinfo == pytz.utc, "Algorithm should have a utc datetime"
@@ -625,8 +624,8 @@ class Algorithm(object):
                           style=style)
 
     @api_method
-    @expect_types(share_counts=pd.Series)
-    @expect_dtypes(share_counts=np.dtype('float64'))
+    #@expect_types(share_counts=pd.Series)
+    #@expect_dtypes(share_counts=np.dtype('float64'))
     def batch_market_order(self, share_counts):
         style = MarketOrder()
         order_args = [
@@ -876,7 +875,7 @@ class Algorithm(object):
             )
 
         if asset.auto_close_date:
-            day = normalize_date(self.get_datetime())
+            day = self.get_datetime().normalize()
 
             if day > min(asset.end_date, asset.auto_close_date):
                 # If we are after the asset's end date or auto close date, warn
@@ -1040,10 +1039,10 @@ class Algorithm(object):
         self.set_asset_restrictions(restrictions, on_error)
 
     @api_method
-    @expect_types(
-        restrictions=Restrictions,
-        on_error=str,
-    )
+    # @expect_types(
+    #     restrictions=Restrictions,
+    #     on_error=str,
+    # )
     def set_asset_restrictions(self, restrictions, on_error='fail'):
         """Set a restriction on which assets can be ordered.
 

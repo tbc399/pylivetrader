@@ -454,7 +454,7 @@ class NotHalfDay(StatelessRule):
 
 
 class TradingDayOfWeekRule(six.with_metaclass(ABCMeta, StatelessRule)):
-    @preprocess(n=lossless_float_to_int('TradingDayOfWeekRule'))
+    #@preprocess(n=lossless_float_to_int('TradingDayOfWeekRule'))
     def __init__(self, n, invert):
         if not 0 <= n < MAX_WEEK_RANGE:
             raise _out_of_range_error(MAX_WEEK_RANGE)
@@ -499,7 +499,7 @@ class NDaysBeforeLastTradingDayOfWeek(TradingDayOfWeekRule):
 
 class TradingDayOfMonthRule(six.with_metaclass(ABCMeta, StatelessRule)):
 
-    @preprocess(n=lossless_float_to_int('TradingDayOfMonthRule'))
+    #@preprocess(n=lossless_float_to_int('TradingDayOfMonthRule'))
     def __init__(self, n, invert):
         if not 0 <= n < MAX_MONTH_RANGE:
             raise _out_of_range_error(MAX_MONTH_RANGE)

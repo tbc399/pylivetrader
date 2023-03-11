@@ -17,9 +17,8 @@ import pandas
 import pandas as pd
 
 from contextlib import contextmanager
-from collections import Iterable
+from collections.abc import Iterable
 
-from pylivetrader.misc.pd_utils import normalize_date
 from pylivetrader.assets import Asset
 from pylivetrader.misc.parallel_utils import parallelize
 
@@ -261,6 +260,7 @@ class BarData:
         # one is tradable, one is not. the auto_close_date is set (first for
         # the tradable one then for the not tradable one, casuing this to fail
         # it's set in alpaca.backend.get_equities() (asset.end_date)
+        
         # if asset.auto_close_date and session_label >= asset.auto_close_date:
         #     return False
 
@@ -334,7 +334,7 @@ class BarData:
             })
 
     def _is_stale_for_asset(self, asset, dt, adjusted_dt, data_portal):
-        session_label = normalize_date(dt)  # FIXME
+        session_label = dt.normalize()
 
         if not asset.is_alive_for_session(session_label):
             return False

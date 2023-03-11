@@ -254,7 +254,7 @@ def expect_dtypes(__funcname=_qualified_name, **named):
     else:
         get_funcname = __funcname
 
-    @preprocess(dtypes=call(lambda x: x if isinstance(x, tuple) else (x,)))
+    #@preprocess(dtypes=call(lambda x: x if isinstance(x, tuple) else (x,)))
     def _expect_dtype(dtypes):
         """
         Factory for dtype-checking functions that work with the @preprocess
