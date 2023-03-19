@@ -13,7 +13,6 @@ import alpaca_trade_api as tradeapi
 
 from pylivetrader.backend.base import BaseBackend
 from pylivetrader.protocol import Position, Positions, Portfolio, Account
-from pylivetrader.misc.pd_utils import normalize_date
 from pylivetrader.assets import Equity
 from pylivetrader.finance.order import ORDER_STATUS
 from pylivetrader.finance.order import Order
@@ -58,9 +57,9 @@ class Backend(BaseBackend):
             Accept='application/json'
         )
         
-        self._api = tradeapi.REST(
-            None, None, None, api_version='v1'
-        )
+        # self._api = tradeapi.REST(
+        #     None, None, None, api_version='v1'
+        # )
     
     def _form_url(self, endpoint):
         """Make it easy to form the urls"""
@@ -80,8 +79,10 @@ class Backend(BaseBackend):
         log.info('Fetching equities')
         
         assets = []
-        t = normalize_date(pandas.Timestamp('now', tz=NY))
-        raw_assets = self._api.list_assets(asset_class='us_equity')
+        #t = normalize_date(pandas.Timestamp('now', tz=NY))
+        t = pandas.Timestamp('now', tz=NY).normalize()
+        # raw_assets = self._api.list_assets(asset_class='us_equity')
+        raw_assets = self._list_assets(asset_class='us_equity')
         for raw_asset in raw_assets:
             
             asset = Equity(
