@@ -25,6 +25,9 @@ flake8 = "^6.0.0"
 pytest-runner = "^6.0.0"
 responses = "^0.22.0"
 exchange-calendars = "^4.2.5"
+tiingo = "^0.14.0"
+black = "^23.1.0"
+isort = "^5.12.0"
 
 
 [build-system]
