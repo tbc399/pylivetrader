@@ -16,8 +16,8 @@
 
 from time import sleep
 
-from logbook import Logger
 import pandas as pd
+from logbook import Logger
 
 BAR = 0
 SESSION_START = 1
@@ -26,7 +26,7 @@ MINUTE_END = 3
 BEFORE_TRADING_START_BAR = 4
 
 
-log = Logger('Realtime Clock')
+log = Logger("Realtime Clock")
 
 
 class RealtimeClock(object):
@@ -43,12 +43,14 @@ class RealtimeClock(object):
     the Broker and the live trading machine's clock.
     """
 
-    def __init__(self,
-                 calendar,
-                 before_trading_start_minute,
-                 minute_emission,
-                 time_skew=pd.Timedelta("0s"),
-                 is_broker_alive=None):
+    def __init__(
+        self,
+        calendar,
+        before_trading_start_minute,
+        minute_emission,
+        time_skew=pd.Timedelta("0s"),
+        is_broker_alive=None,
+    ):
         self.calendar = calendar
         self.before_trading_start_minute = before_trading_start_minute
         self.minute_emission = minute_emission
@@ -58,15 +60,15 @@ class RealtimeClock(object):
         self._before_trading_start_bar_yielded = False
 
     def __iter__(self):
-
         current_session = None
 
         while True:
-            current_time = pd.to_datetime('now', utc=True)
-            server_time = (current_time + self.time_skew).floor('1 min')
+            #current_time = pd.to_datetime("now", utc=True).tz_localize(None)
+            current_time = pd.to_datetime("now", utc=True)
+            server_time = (current_time + self.time_skew).floor("1 min")
 
-            session_label = server_time.floor('1D')
-            if not self.calendar.is_session(session_label):
+            session_label = server_time.floor("1D")
+            if not self.calendar.is_session(session_label.tz_localize(None)):
                 # wait until next session
                 sleep(1)
                 continue
@@ -82,25 +84,28 @@ class RealtimeClock(object):
             )
 
             before_trading_start = (
-                current_session
-                .tz_localize(None)
-                .tz_localize(self.before_trading_start_minute[1])
+                current_session.tz_localize(None).tz_localize(
+                    self.before_trading_start_minute[1]
+                )
             ) + delta
 
-            session_open = self.calendar.session_open(current_session)
-            session_close = self.calendar.session_close(current_session)
+            session_open = self.calendar.session_open(current_session.tz_localize(None))
+            session_close = self.calendar.session_close(current_session.tz_localize(None))
 
-            if (server_time >= before_trading_start and
-                    not self._before_trading_start_bar_yielded):
+            if (
+                server_time >= before_trading_start
+                and not self._before_trading_start_bar_yielded
+            ):
                 self._last_emit = server_time
                 self._before_trading_start_bar_yielded = True
                 yield server_time, BEFORE_TRADING_START_BAR
             elif server_time < session_open:
                 sleep(1)
-            elif (session_open <= server_time < session_close):
-                if (self._last_emit is None or
-                        server_time - self._last_emit >=
-                        pd.Timedelta('1 minute')):
+            elif session_open <= server_time < session_close:
+                if (
+                    self._last_emit is None
+                    or server_time - self._last_emit >= pd.Timedelta("1 minute")
+                ):
                     self._last_emit = server_time
                     yield server_time, BAR
                     if self.minute_emission:
